@@ -1,22 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import StockChart from "./StockChart";
 
 const SearchStock = () => {
   const [symbol, setSymbol] = useState("");
   const [data, setData] = useState(null);
+  const [chartData, setChartData] = useState([]);
   const [error, setError] = useState("");
+  const ws = useRef(null); // ⬅️ Persistent WebSocket across renders
 
   const handleSearch = async () => {
     try {
       const response = await axios.get(`http://localhost:8000/stock/${symbol}`);
-      setData(response.data);
-      setError("");
+      const chartRes = await axios.get(
+        `http://localhost:8000/stock/${symbol}/intraday`
+      );
+
+      console.log("STATIC STOCK DATA:", response.data);
+      console.log("CHART DATA:", chartRes.data);
+
+      if (Array.isArray(chartRes.data)) {
+        setChartData(chartRes.data);
+      } else {
+        setChartData([]);
+      }
+
+      setData(response.data); // ✅ inside try block
+      setError(""); // ✅ inside try block
+
+      // Close existing socket
+      if (ws.current) {
+        ws.current.close();
+      }
+
+      const socket = new WebSocket("ws://localhost:8000/ws/stock");
+      ws.current = socket;
+
+      socket.onopen = () => {
+        console.log("WebSocket connected");
+        socket.send(symbol);
+      };
+
+      socket.onmessage = (event) => {
+        const priceData = JSON.parse(event.data);
+        console.log("Live data:", priceData);
+
+        setData((prevData) => {
+          if (!prevData) return null;
+          return {
+            ...prevData,
+            price: priceData.price,
+            timestamp: priceData.timestamp,
+          };
+        });
+      };
+
+      socket.onerror = (err) => {
+        console.error("WebSocket error:", err);
+        setError("WebSocket error");
+      };
     } catch (err) {
-      console.error(err);
+      console.error("❌ API error:", err);
       setError("Stock not found or API error.");
       setData(null);
+      setChartData([]);
     }
   };
+
+  // Cleanup on unmount or re-search
+  useEffect(() => {
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+        console.log("🧹 WebSocket closed (cleanup)");
+      }
+    };
+  }, []);
 
   return (
     <div style={{ padding: "20px" }}>
@@ -33,16 +92,15 @@ const SearchStock = () => {
 
       {data && (
         <div>
-          <h3>{data.symbol}</h3>
-          <p>
-            <strong>Price:</strong> ${data.price}
-          </p>
-          <p>
-            <strong>Volume:</strong> {data.volume}
-          </p>
-          <p>
-            <strong>Timestamp:</strong> {data.timestamp}
-          </p>
+          <p>Price: ${data.price}</p>
+          {data.volume && <p>Volume: {data.volume}</p>}
+          <p>Time: {data.timestamp}</p>
+
+          {chartData.length > 0 ? (
+            <StockChart chartData={chartData} />
+          ) : (
+            <p>No chart data available.</p>
+          )}
         </div>
       )}
     </div>
