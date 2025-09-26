@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from fastapi import HTTPException
 import time
+from datetime import timedelta
 
 load_dotenv()
 app = FastAPI()
@@ -87,3 +88,31 @@ async def websocket_endpoint(websocket: WebSocket):
 
     except WebSocketDisconnect:
         print("WebSocket closed")
+
+
+@app.get("/stock/{symbol}/news")
+def get_stock_news(symbol: str):
+    try:
+        to_date = datetime.utcnow().date()
+        from_date = to_date - timedelta(days=3)
+
+        url = "https://finnhub.io/api/v1/company-news"
+        params = {
+            "symbol": symbol,
+            "from": from_date.isoformat(),
+            "to": to_date.isoformat(),
+            "token": FINNHUB_API_KEY
+        }
+
+        print("Fetching news with params:", params)
+        response = requests.get(url, params=params)
+        data = response.json()
+        
+        if not isinstance(data, list):
+            print("News API error:", data)
+            raise HTTPException(status_code=404, detail="News data not found")
+
+        return data[:10]  # return latest 10 news items
+    except Exception as e:
+        print("Error fetching news:", e)
+        return {"error": "News fetch failed"}
