@@ -49,3 +49,22 @@ A sleek, full-stack dashboard to track real-time stock prices, intraday charts, 
 ```bash
 git clone https://github.com/MaheshVenkatReesu/stock-news-dashboard.git
 cd stock-news-dashboard
+
+
+
+2. Environment Variables
+
+
+FINNHUB_API_KEY=your_finnhub_api_key
+TWELVE_DATA_API_KEY=your_twelve_data_api_key
+
+3. Start Backend
+
+cd server
+uvicorn main:app --reload --port 10000
+
+4. Start Frontend
+
+cd client
+npm install
+npm run dev
