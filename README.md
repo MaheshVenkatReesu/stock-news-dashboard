@@ -1,103 +1,109 @@
 # 📈 Real-Time Stock & News Dashboard
 
-A sleek, full-stack dashboard to track real-time stock prices, intraday charts, live news updates, and sector performance — all in one place.
+A sleek and responsive dashboard that allows users to:
+- 🔍 Search for stock prices
+- 📈 View real-time intraday charts
+- 📰 Read latest news for a stock
+- 🧠 Monitor sector performance (local only)
 
-🌐 **Live Demo**: [Frontend on Vercel](https://stock-news-dashboard-htfuo0y63-maheshvenkatreesus-projects.vercel.app)  
-🔧 **Backend API**: [Render API](https://stock-news-backend-hc0n.onrender.com)
+Live Demo 👉 [https://stock-news-dashboard.vercel.app](https://stock-news-dashboard.vercel.app)
 
 ---
 
 ## 🚀 Features
 
-- 🔍 Search any stock (e.g., AAPL, TSLA, MSFT)
-- 📉 Real-time stock prices (via WebSocket)
-- 🕒 Intraday chart (5-minute intervals)
-- 📰 Latest financial news
-- 📊 Sector performance (via Twelve Data API)
-- ⚠️ Graceful error handling & fallback UI
-- 🔐 Free-tier API compatible
+- **🔍 Stock Search** – Fetches current stock prices & volume via Finnhub API
+- **📈 Intraday Charts** – Visualizes last 100 mins of price movement using Twelve Data API
+- **📰 Company News** – Pulls recent company news via Finnhub API
+- **📊 Sector Performance** – Displays sector performance chart *(requires local environment)*
+- **🌐 WebSocket Updates** – Live price updates every 5 seconds
+- **⚡ Fast & Modern UI** – Built with React + Recharts
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- React.js + Vite
-- Recharts for charting
-- Axios for API calls
-- Deployed on **Vercel**
-
-### Backend
-- FastAPI (Python)
-- WebSocket (live prices)
-- Finnhub API (quotes, news)
-- Twelve Data API (intraday + sector)
-- Deployed on **Render**
+- **Frontend:** React, Axios, Recharts, WebSocket API
+- **Backend:** FastAPI, Python, Uvicorn
+- **APIs Used:**
+  - [Finnhub](https://finnhub.io/) – Real-time price & news
+  - [Twelve Data](https://twelvedata.com/) – Intraday chart + sectors
+- **Deployment:**
+  - Frontend → Vercel
+  - Backend → Render
 
 ---
 
 ## 📸 Screenshots
 
-> _(You can add your own screenshots or GIFs here later)_
+### 🔍 Search & Live Stock Updates
+![Search and Live Price](./screenshot1.png)
+
+### 📈 Intraday Price Chart
+![Intraday Chart](./screenshot2.png)
+
+### 📰 Latest News Section
+![News Section](./screenshot3.png)
+
+### 📊 Sector Performance (Local Only)
+> Note: This chart uses a premium API and may not work in the live deployment.
+![Sector Chart](./screenshot4.png)
 
 ---
 
-## 📦 Setup Instructions
+## 🧪 Run Locally (for Full Features)
 
 ### 1. Clone the repo
-
 ```bash
 git clone https://github.com/MaheshVenkatReesu/stock-news-dashboard.git
 cd stock-news-dashboard
 
-
-
-2. Environment Variables
-
-
-FINNHUB_API_KEY=your_finnhub_api_key
-TWELVE_DATA_API_KEY=your_twelve_data_api_key
-
-3. Start Backend
+2. Set up Backend
 
 cd server
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+Create a .env file:
+
+FINNHUB_API_KEY=your_finnhub_key
+TWELVE_DATA_API_KEY=your_twelve_data_key
+
+Run the server:
+
 uvicorn main:app --reload --port 10000
 
-4. Start Frontend
+3. Set up Frontend
 
 cd client
 npm install
-npm run dev
+npm start
 
-
-
-🌍 Deployment Notes
-	•	Backend is hosted on Render
-	•	Frontend is auto-deployed via Vercel
-	•	Make sure CORS is enabled in FastAPI for frontend origin
+Make sure API URLs in the frontend point to http://localhost:10000
 
 ⸻
 
-🙌 Credits
+🌍 Deployment
+	•	Frontend: Push to GitHub → Auto deployed to Vercel
+	•	Backend: Connect GitHub repo to Render and deploy with Python 3.13 and FastAPI
+
+⸻
+
+❗ Known Limitations
+	•	Sector performance chart does not work on deployed site (Twelve Data restriction)
+	•	Free API plans have rate limits
+
+⸻
+
+🙌 Acknowledgements
 	•	Finnhub.io
-	•	Twelve Data
+	•	TwelveData.com
+	•	Render
+	•	Vercel
 
 ⸻
 
-🧠 Future Improvements
-	•	Add dark mode toggle
-	•	Pagination for news
-	•	Sector performance with historical charts
-	•	User portfolios / watchlist
+📬 Contact
 
-⸻
-
-📄 License
-
-MIT License
-
-
-
-https://github.com/user-attachments/assets/8a7850ec-3f1d-43b8-99a5-8348420fff71
-
-https://github.com/user-attachments/assets/9353b11e-a4f4-415a-b353-9b5fb015e147
+Mahesh Venkat Reesu
