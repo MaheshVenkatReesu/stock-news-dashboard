@@ -1,13 +1,18 @@
 import React from "react";
 import SearchStock from "./components/SearchStock";
-// import StockChart from "./components/StockChart";
+import SectorChart from "./components/SectorChart";
 
 function App() {
   return (
-    <div>
-      <h1>📈 Real-Time Stock Dashboard</h1>
+    <div style={{ padding: "20px" }}>
+      <h1>📊 Real-Time Stock & News Dashboard</h1>
+
       <SearchStock />
-      {/* <StockChart /> */}
+
+      <hr style={{ margin: "40px 0" }} />
+
+      <h2>📈 Market Sector Performance</h2>
+      <SectorChart />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import StockChart from "./StockChart";
+import NewsCard from "./NewsCard";
+import SectorChart from "./SectorChart";
 
 const SearchStock = () => {
   const [symbol, setSymbol] = useState("");
@@ -8,6 +10,7 @@ const SearchStock = () => {
   const [chartData, setChartData] = useState([]);
   const [error, setError] = useState("");
   const ws = useRef(null); // ⬅️ Persistent WebSocket across renders
+  const [news, setNews] = useState([]);
 
   const handleSearch = async () => {
     try {
@@ -18,6 +21,11 @@ const SearchStock = () => {
 
       console.log("STATIC STOCK DATA:", response.data);
       console.log("CHART DATA:", chartRes.data);
+
+      const newsRes = await axios.get(
+        `http://localhost:8000/stock/${symbol}/news`
+      );
+      setNews(newsRes.data || []);
 
       if (Array.isArray(chartRes.data)) {
         setChartData(chartRes.data);
@@ -101,6 +109,28 @@ const SearchStock = () => {
           ) : (
             <p>No chart data available.</p>
           )}
+
+          {news.length > 0 && (
+            <div>
+              <h3>📰 Latest News</h3>
+              {news.map((item, idx) => (
+                <NewsCard key={idx} news={item} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {data && (
+        <div>
+          <p>Price: ${data.price}</p>
+          <p>Volume: {data.volume}</p>
+          <p>Time: {data.timestamp}</p>
+
+          <StockChart chartData={chartData} />
+
+          {/* ✅ Render sector performance chart */}
+          <SectorChart />
         </div>
       )}
     </div>
