@@ -68,3 +68,36 @@ uvicorn main:app --reload --port 10000
 cd client
 npm install
 npm run dev
+
+
+
+🌍 Deployment Notes
+	•	Backend is hosted on Render
+	•	Frontend is auto-deployed via Vercel
+	•	Make sure CORS is enabled in FastAPI for frontend origin
+
+⸻
+
+🙌 Credits
+	•	Finnhub.io
+	•	Twelve Data
+
+⸻
+
+🧠 Future Improvements
+	•	Add dark mode toggle
+	•	Pagination for news
+	•	Sector performance with historical charts
+	•	User portfolios / watchlist
+
+⸻
+
+📄 License
+
+MIT License
+
+
+
+<img width="1458" height="539" alt="image" src="https://github.com/user-attachments/assets/8a7850ec-3f1d-43b8-99a5-8348420fff71" />
+
+<img width="628" height="799" alt="image" src="https://github.com/user-attachments/assets/9353b11e-a4f4-415a-b353-9b5fb015e147" />
