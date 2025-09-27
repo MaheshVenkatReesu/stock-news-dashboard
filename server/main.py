@@ -18,7 +18,7 @@ app = FastAPI()
 # CORS config
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://stock-news-dashboard-<project>.vercel.app"],  # Your exact Vercel domain
+    allow_origins=["*"],  # ← TEMP: allow all origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
