@@ -98,6 +98,6 @@ MIT License
 
 
 
-<img width="1458" height="539" alt="image" src="https://github.com/user-attachments/assets/8a7850ec-3f1d-43b8-99a5-8348420fff71" />
+https://github.com/user-attachments/assets/8a7850ec-3f1d-43b8-99a5-8348420fff71
 
-<img width="628" height="799" alt="image" src="https://github.com/user-attachments/assets/9353b11e-a4f4-415a-b353-9b5fb015e147" />
+https://github.com/user-attachments/assets/9353b11e-a4f4-415a-b353-9b5fb015e147
